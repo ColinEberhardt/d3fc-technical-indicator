@@ -28,7 +28,7 @@ export default function() {
         });
     };
 
-    exponentialMovingAverage.windowSize = function(...args) {
+    exponentialMovingAverage.windowSize = (...args) => {
         if (!args.length) {
             return windowSize;
         }
@@ -36,7 +36,7 @@ export default function() {
         return exponentialMovingAverage;
     };
 
-    exponentialMovingAverage.value = function(...args) {
+    exponentialMovingAverage.value = (...args) => {
         if (!args.length) {
             return value;
         }

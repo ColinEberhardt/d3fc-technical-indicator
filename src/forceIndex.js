@@ -26,14 +26,14 @@ export default function() {
         return smoothedForceIndex;
     };
 
-    force.volumeValue = function(...args) {
+    force.volumeValue = (...args) => {
         if (!args.length) {
             return volumeValue;
         }
         volumeValue = args[0];
         return force;
     };
-    force.closeValue = function(...args) {
+    force.closeValue = (...args) => {
         if (!args.length) {
             return closeValue;
         }
