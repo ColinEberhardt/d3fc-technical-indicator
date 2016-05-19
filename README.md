@@ -159,7 +159,7 @@ Get/set the accessor function used to obtain the value to be used by the generat
 
 *exponentialMovingAverage*.**period**([*size*])
 
-Get/set the period of the exponential moving average calculation performed by the generator. Defaults to 9.
+Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *exponentialMovingAverage*(*data*)
 
@@ -182,7 +182,7 @@ Get/set the accessor function used to obtain the trade volume value to be used b
 
 *forceIndex*.**period**([*size*])
 
-Get/set the period of the exponential moving average calculation performed by the generator. Defaults to 13.
+Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
 *forceIndex*(*data*)
 
@@ -201,15 +201,15 @@ Get/set the accessor function used to obtain the value to be used by the generat
 
 *macd*.**fastPeriod**([*period*])
 
-Get/set the period of the 'fast' exponential moving average calculation performed by the generator. Defaults to 12.
+Get/set the period of the 'fast' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.
 
 *macd*.**slowPeriod**([*period*])
 
-Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Defaults to 29.
+Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 29.
 
 *macd*.**signalPeriod**([*period*])
 
-Get/set the period of the 'signal' exponential moving average calculation performed by the generator. Defaults to 9.
+Get/set the period of the 'signal' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *macd*(*data*)
 
