@@ -2,22 +2,22 @@ import { identity } from './fn';
 
 export default function() {
 
-    let windowSize = 9;
+    let period = 9;
     let value = identity;
 
     const exponentialMovingAverage = data => {
 
-        const alpha = 2 / (windowSize + 1);
+        const alpha = 2 / (period + 1);
         let previous;
         let initialAccumulator = 0;
 
         return data.map((d, i) => {
-            if (i < windowSize - 1) {
+            if (i < period - 1) {
                 initialAccumulator += value(d, i);
                 return undefined;
-            } else if (i === windowSize - 1) {
+            } else if (i === period - 1) {
                 initialAccumulator += value(d, i);
-                var initialValue = initialAccumulator / windowSize;
+                var initialValue = initialAccumulator / period;
                 previous = initialValue;
                 return initialValue;
             } else {
@@ -28,11 +28,11 @@ export default function() {
         });
     };
 
-    exponentialMovingAverage.windowSize = (...args) => {
+    exponentialMovingAverage.period = (...args) => {
         if (!args.length) {
-            return windowSize;
+            return period;
         }
-        windowSize = args[0];
+        period = args[0];
         return exponentialMovingAverage;
     };
 

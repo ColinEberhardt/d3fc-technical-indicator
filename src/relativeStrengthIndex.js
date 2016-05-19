@@ -4,7 +4,7 @@ import { rebind } from 'd3fc-rebind';
 export default function() {
 
     const slidingWindow = _slidingWindow()
-        .windowSize(14);
+        .period(14);
     const wildersSmoothing = (values, prevAvg) => prevAvg + ((values[values.length - 1] - prevAvg) / values.length);
     const sum = (a, b) => a + b;
     const makeAccumulator = (prevClose, prevDownChangesAvg, prevUpChangesAvg) => closes => {
@@ -44,7 +44,7 @@ export default function() {
         return slidingWindow(data);
     };
 
-    rebind(rsi, slidingWindow, 'windowSize', 'value');
+    rebind(rsi, slidingWindow, 'period', 'value');
 
     return rsi;
 }
