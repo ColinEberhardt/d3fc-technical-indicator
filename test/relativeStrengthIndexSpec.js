@@ -20,6 +20,7 @@ describe('relativeStrengthIndex', function() {
 
     beforeEach(function() {
         rsi = relativeStrengthIndex()
+            .value((d) => d.close)
             .windowSize(5);
     });
 

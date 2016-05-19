@@ -244,9 +244,9 @@ Computes the percentage change from the specified `baseIndex` for the given data
 
 Constructs a new RSI generator with the default settings.
     
-*relativeStrengthIndex*.**closeValue**([*value*])
+*relativeStrengthIndex*.**value**([*value*])
 
-Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
+Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *relativeStrengthIndex*.**windowSize**([*size*])
 
