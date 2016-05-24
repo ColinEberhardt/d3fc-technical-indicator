@@ -204,7 +204,7 @@ Get/set the period of the 'fast' exponential moving average calculation performe
 
 *macd*.**slowPeriod**([*period*])
 
-Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 29.
+Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 26.
 
 *macd*.**signalPeriod**([*period*])
 
