@@ -83,9 +83,9 @@ Computes the Bollinger bands for the given data array. Returns an array of objec
 
 Constructs a new Elder-ray generator with the default settings.
 
-*elderRay*.**value**([*value*])
+*elderRay*.**closeValue**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
 *elderRay*.**highValue**([*value*])
 
