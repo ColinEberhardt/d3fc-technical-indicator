@@ -10,9 +10,10 @@ export default function() {
 
     const kWindow = slidingWindow()
         .period(5)
+        .defined(d => closeValue(d) != null && highValue(d) != null && lowValue(d) != null)
         .accumulator(values => {
             let kValue, minLow, maxHigh;
-            if (values && values.every(d => closeValue(d) != null && highValue(d) != null && lowValue(d) != null)) {
+            if (values) {
                 maxHigh = max(values, highValue);
                 minLow = min(values, lowValue);
                 kValue = 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);

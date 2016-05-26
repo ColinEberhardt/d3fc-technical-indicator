@@ -7,7 +7,7 @@ export default function() {
     const slidingWindow = _slidingWindow()
         .accumulator(values => {
             let ma;
-            if (values && values.every(d => d != null)) {
+            if (values) {
                 ma = mean(values);
             }
             return ma;

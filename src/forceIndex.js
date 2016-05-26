@@ -13,9 +13,10 @@ export default function() {
 
     const slidingWindow = _slidingWindow()
         .period(2)
+        .defined(d => closeValue(d) != null && volumeValue(d) != null)
         .accumulator(values => {
             let force;
-            if (values && values.every(d => closeValue(d) != null && volumeValue(d) != null)) {
+            if (values) {
                 force = (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
             }
             return force;

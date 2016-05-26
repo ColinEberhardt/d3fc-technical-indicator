@@ -8,7 +8,7 @@ export default function() {
     const wildersSmoothing = (values, prevAvg) => prevAvg + ((values[values.length - 1] - prevAvg) / values.length);
     const sum = (a, b) => a + b;
     const makeAccumulator = (prevClose, prevDownChangesAvg, prevUpChangesAvg) => closes => {
-        if (!closes || closes.some(close => close == null)) {
+        if (!closes) {
             return undefined;
         }
         if (!prevClose) {

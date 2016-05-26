@@ -8,18 +8,14 @@ export default function() {
 
     const slidingWindow = _slidingWindow()
         .accumulator(values => {
-            let upper, lower, avg;
-            if (values && values.every(d => d != null)) {
+            let upper, lower, average;
+            if (values) {
                 const stdDev = deviation(values);
-                avg = mean(values);
-                upper = avg + multiplier * stdDev;
-                lower = avg - multiplier * stdDev;
+                average = mean(values);
+                upper = average + multiplier * stdDev;
+                lower = average - multiplier * stdDev;
             }
-            return {
-                upper: upper,
-                average: avg,
-                lower: lower
-            };
+            return {upper, lower, average};
         });
 
     const bollingerBands = data => slidingWindow(data);
