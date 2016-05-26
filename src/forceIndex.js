@@ -15,7 +15,7 @@ export default function() {
         .period(2)
         .accumulator(values => {
             let force;
-            if (values) {
+            if (values && values.every(d => closeValue(d) != null && volumeValue(d) != null)) {
                 force = (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
             }
             return force;
@@ -23,12 +23,8 @@ export default function() {
 
     const force = data => {
         emaComputer.value(identity);
-        const forceIndex = slidingWindow(data).filter(identity);
-        const smoothedForceIndex = emaComputer(forceIndex);
-        if (data.length) {
-            smoothedForceIndex.unshift(undefined);
-        }
-        return smoothedForceIndex;
+        const forceIndex = slidingWindow(data);
+        return emaComputer(forceIndex);
     };
 
     force.volumeValue = (...args) => {

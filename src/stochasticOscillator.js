@@ -12,7 +12,7 @@ export default function() {
         .period(5)
         .accumulator(values => {
             let kValue, minLow, maxHigh;
-            if (values) {
+            if (values && values.every(d => closeValue(d) != null && highValue(d) != null && lowValue(d) != null)) {
                 maxHigh = max(values, highValue);
                 minLow = min(values, lowValue);
                 kValue = 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
@@ -24,7 +24,7 @@ export default function() {
         .period(3)
         .accumulator(values => {
             let dValue;
-            if (values && values[0] !== undefined) {
+            if (values && values.every(d => d)) {
                 dValue = mean(values);
             }
             return dValue;

@@ -9,7 +9,7 @@ export default function() {
     const slidingWindow = _slidingWindow()
         .accumulator(values => {
             let upper, lower, avg;
-            if (values) {
+            if (values && values.every(d => d != null)) {
                 const stdDev = deviation(values);
                 avg = mean(values);
                 upper = avg + multiplier * stdDev;
