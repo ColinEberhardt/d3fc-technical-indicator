@@ -11,14 +11,24 @@ export default function() {
     const kWindow = slidingWindow()
         .period(5)
         .accumulator(values => {
-            const maxHigh = max(values, highValue);
-            const minLow = min(values, lowValue);
-            return 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
+            let kValue, minLow, maxHigh;
+            if (values) {
+                maxHigh = max(values, highValue);
+                minLow = min(values, lowValue);
+                kValue = 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
+            }
+            return kValue;
         });
 
     const dWindow = slidingWindow()
         .period(3)
-        .accumulator(values => values[0] === undefined ? undefined : mean(values));
+        .accumulator(values => {
+            let dValue;
+            if (values && values[0] !== undefined) {
+                dValue = mean(values);
+            }
+            return dValue;
+        });
 
     const stochastic = data => {
         const kValues = kWindow(data);

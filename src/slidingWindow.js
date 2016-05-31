@@ -2,7 +2,6 @@ import { identity, noop, functor } from './fn';
 
 export default function() {
 
-    let undefinedValue = () => undefined;
     let period = () => 10;
     let accumulator = noop;
     let value = identity;
@@ -12,24 +11,17 @@ export default function() {
         const windowData = data.slice(0, size).map(value);
         return data.map((d, i) => {
             if (i < size - 1) {
-                return undefinedValue(d, i);
+                return accumulator(undefined, i);
             }
             if (i >= size) {
                 // Treat windowData as FIFO rolling buffer
                 windowData.shift();
                 windowData.push(value(d, i));
             }
-            return accumulator(windowData);
+            return accumulator(windowData, i);
         });
     };
 
-    slidingWindow.undefinedValue = (...args) => {
-        if (!args.length) {
-            return undefinedValue;
-        }
-        undefinedValue = functor(args[0]);
-        return slidingWindow;
-    };
     slidingWindow.period = (...args) => {
         if (!args.length) {
             return period;

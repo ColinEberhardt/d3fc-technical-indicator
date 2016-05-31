@@ -1,30 +1,41 @@
 import { identity, functor } from './fn';
+import { mean } from 'd3-array';
 
 export default function() {
 
-    let period = () => 9;
     let value = identity;
+    let period = () => 9;
 
+    const initialMovingAverageAccumulator = period => {
+        const values = [];
+        return value => {
+            let movingAverage;
+            if (values.length < period && value != null) {
+                values.push(value);
+            }
+            if (values.length >= period) {
+                movingAverage = mean(values);
+            }
+            return movingAverage;
+        };
+    };
     const exponentialMovingAverage = function(data) {
         const size = period.apply(this, arguments);
         const alpha = 2 / (size + 1);
+        const initialAccumulator = initialMovingAverageAccumulator(size);
         let previous;
-        let initialAccumulator = 0;
+        let initialMovingAverage;
 
         return data.map((d, i) => {
-            if (i < size - 1) {
-                initialAccumulator += value(d, i);
-                return undefined;
-            } else if (i === size - 1) {
-                initialAccumulator += value(d, i);
-                var initialValue = initialAccumulator / size;
-                previous = initialValue;
-                return initialValue;
+            const v = value(d, i);
+            let ema;
+            if (initialMovingAverage === undefined) {
+                ema = initialMovingAverage = initialAccumulator(v);
             } else {
-                var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
-                previous = nextValue;
-                return nextValue;
+                ema = v * alpha + (1 - alpha) * previous;
             }
+            previous = ema;
+            return ema;
         });
     };
 

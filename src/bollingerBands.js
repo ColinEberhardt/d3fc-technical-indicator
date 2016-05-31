@@ -7,18 +7,18 @@ export default function() {
     let multiplier = 2;
 
     const slidingWindow = _slidingWindow()
-        .undefinedValue({
-            upper: undefined,
-            average: undefined,
-            lower: undefined
-        })
         .accumulator(values => {
-            const avg = mean(values);
-            const stdDev = deviation(values);
+            let upper, lower, avg;
+            if (values) {
+                const stdDev = deviation(values);
+                avg = mean(values);
+                upper = avg + multiplier * stdDev;
+                lower = avg - multiplier * stdDev;
+            }
             return {
-                upper: avg + multiplier * stdDev,
+                upper: upper,
                 average: avg,
-                lower: avg - multiplier * stdDev
+                lower: lower
             };
         });
 

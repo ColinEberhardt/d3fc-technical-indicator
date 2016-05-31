@@ -13,7 +13,13 @@ export default function() {
 
     const slidingWindow = _slidingWindow()
         .period(2)
-        .accumulator(values => (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]));
+        .accumulator(values => {
+            let force;
+            if (values) {
+                force = (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
+            }
+            return force;
+        });
 
     const force = data => {
         emaComputer.value(identity);

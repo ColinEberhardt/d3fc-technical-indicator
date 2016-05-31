@@ -5,7 +5,13 @@ import _slidingWindow from './slidingWindow';
 export default function() {
 
     const slidingWindow = _slidingWindow()
-        .accumulator(mean);
+        .accumulator(values => {
+            let ma;
+            if (values && values.every(d => d != null)) { // check all values are 'defined'.
+                ma = mean(values);
+            }
+            return ma;
+        });
 
     const movingAverage = data => slidingWindow(data);
 
