@@ -1,5 +1,6 @@
 import _slidingWindow from './slidingWindow';
 import { rebind } from 'd3fc-rebind';
+import { convertNaN } from './fn';
 
 export default function() {
 
@@ -38,7 +39,7 @@ export default function() {
         prevUpChangesAvg = upChangesAvg;
 
         const rs = upChangesAvg / downChangesAvg;
-        return 100 - (100 / (1 + rs));
+        return convertNaN(100 - (100 / (1 + rs)));
     };
 
     var rsi = data => {

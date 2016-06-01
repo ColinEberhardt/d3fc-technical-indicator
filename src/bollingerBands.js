@@ -1,6 +1,7 @@
 import { mean, deviation } from 'd3-array';
 import { rebind } from 'd3fc-rebind';
 import _slidingWindow from './slidingWindow';
+import { convertNaN } from './fn';
 
 export default function() {
 
@@ -8,14 +9,13 @@ export default function() {
 
     const slidingWindow = _slidingWindow()
         .accumulator(values => {
-            let upper, lower, average;
-            if (values) {
-                const stdDev = deviation(values);
-                average = mean(values);
-                upper = average + multiplier * stdDev;
-                lower = average - multiplier * stdDev;
-            }
-            return {upper, lower, average};
+            const stdDev = values && deviation(values);
+            const average = values && mean(values);
+            return {
+                average: average,
+                upper: convertNaN(average + multiplier * stdDev),
+                lower: convertNaN(average - multiplier * stdDev)
+            };
         });
 
     const bollingerBands = data => slidingWindow(data);

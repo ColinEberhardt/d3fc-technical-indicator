@@ -11,7 +11,6 @@ export default function() {
         const size = period.apply(this, arguments);
         const windowData = data.slice(0, size).map(value);
         return data.map((d, i) => {
-            let values = windowData;
             if (i >= size) {
                 // Treat windowData as FIFO rolling buffer
                 windowData.shift();
@@ -20,7 +19,7 @@ export default function() {
             if (i < size - 1 || windowData.some(d => !defined(d))) {
                 return accumulator(undefined, i);
             }
-            return accumulator(values, i);
+            return accumulator(windowData, i);
         });
     };
 

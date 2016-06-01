@@ -1,7 +1,7 @@
 import { rebind } from 'd3fc-rebind';
 import _slidingWindow from './slidingWindow';
-import { identity } from './fn';
 import exponentialMovingAverage from './exponentialMovingAverage';
+import { convertNaN } from './fn';
 
 export default function() {
 
@@ -14,16 +14,10 @@ export default function() {
     const slidingWindow = _slidingWindow()
         .period(2)
         .defined(d => closeValue(d) != null && volumeValue(d) != null)
-        .accumulator(values => {
-            let force;
-            if (values) {
-                force = (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
-            }
-            return force;
-        });
+        .accumulator(values => values &&
+            convertNaN((closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1])));
 
     const force = data => {
-        emaComputer.value(identity);
         const forceIndex = slidingWindow(data);
         return emaComputer(forceIndex);
     };

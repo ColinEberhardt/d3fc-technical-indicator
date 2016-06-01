@@ -1,6 +1,8 @@
-import { max, min, mean } from 'd3-array';
+import { max, min } from 'd3-array';
 import slidingWindow from './slidingWindow';
+import movingAverage from './movingAverage';
 import { includeMap, rebindAll } from 'd3fc-rebind';
+import { convertNaN } from './fn';
 
 export default function() {
 
@@ -12,24 +14,14 @@ export default function() {
         .period(5)
         .defined(d => closeValue(d) != null && highValue(d) != null && lowValue(d) != null)
         .accumulator(values => {
-            let kValue, minLow, maxHigh;
-            if (values) {
-                maxHigh = max(values, highValue);
-                minLow = min(values, lowValue);
-                kValue = 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
-            }
-            return kValue;
+            const maxHigh = values && max(values, highValue);
+            const minLow = values && min(values, lowValue);
+            const kValue = values && 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
+            return convertNaN(kValue);
         });
 
-    const dWindow = slidingWindow()
-        .period(3)
-        .accumulator(values => {
-            let dValue;
-            if (values && values.every(d => d)) {
-                dValue = mean(values);
-            }
-            return dValue;
-        });
+    const dWindow = movingAverage()
+        .period(3);
 
     const stochastic = data => {
         const kValues = kWindow(data);
