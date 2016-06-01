@@ -1,4 +1,4 @@
-import { identity, functor } from './fn';
+import { identity, functor, convertNaN } from './fn';
 import { mean } from 'd3-array';
 
 export default function() {
@@ -7,11 +7,15 @@ export default function() {
     let period = () => 9;
 
     const initialMovingAverageAccumulator = period => {
-        const values = [];
+        let values = [];
         return value => {
             let movingAverage;
-            if (values.length < period && value != null) {
-                values.push(value);
+            if (values.length < period) {
+                if (value != null) {
+                    values.push(value);
+                } else {
+                    values = [];
+                }
             }
             if (values.length >= period) {
                 movingAverage = mean(values);
@@ -23,19 +27,15 @@ export default function() {
         const size = period.apply(this, arguments);
         const alpha = 2 / (size + 1);
         const initialAccumulator = initialMovingAverageAccumulator(size);
-        let previous;
-        let initialMovingAverage;
-
+        let ema;
         return data.map((d, i) => {
             const v = value(d, i);
-            let ema;
-            if (initialMovingAverage === undefined) {
-                ema = initialMovingAverage = initialAccumulator(v);
+            if (ema === undefined) {
+                ema = initialAccumulator(v);
             } else {
-                ema = v * alpha + (1 - alpha) * previous;
+                ema = v * alpha + (1 - alpha) * ema;
             }
-            previous = ema;
-            return ema;
+            return convertNaN(ema);
         });
     };
 
