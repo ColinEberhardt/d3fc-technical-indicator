@@ -10,9 +10,12 @@ export default function() {
     const sum = (a, b) => a + b;
     const makeAccumulator = (prevClose, prevDownChangesAvg, prevUpChangesAvg) => closes => {
         if (!closes) {
+            if (prevClose !== undefined) {
+                prevClose = NaN;
+            }
             return undefined;
         }
-        if (!prevClose) {
+        if (prevClose === undefined) {
             prevClose = closes[0];
             return undefined;
         }
@@ -21,12 +24,12 @@ export default function() {
         const upChanges = [];
 
         closes.forEach(close => {
-            const downChange = prevClose > close ? prevClose - close : 0;
-            const upChange = prevClose < close ? close - prevClose : 0;
+            const downChange = prevClose < close ? 0 : prevClose - close;
+            const upChange = prevClose > close ? 0 : close - prevClose;
 
             downChanges.push(downChange);
             upChanges.push(upChange);
-            prevClose = close;
+            prevClose = isNaN(prevClose) ? NaN : close;
         });
 
         const downChangesAvg = prevDownChangesAvg ? wildersSmoothing(downChanges, prevDownChangesAvg)
