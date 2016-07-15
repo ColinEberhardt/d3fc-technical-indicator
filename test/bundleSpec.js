@@ -12,7 +12,7 @@ describe('bundle', function() {
             ],
             done: (_, win) => {
                 const data = [0, 1, 6, 4, 8];
-                const indicator = win.fc.movingAverage();
+                const indicator = win.fc.indicatorMovingAverage();
                 const transformed = indicator(data);
                 expect(transformed).not.toBeUndefined();
                 done();
